@@ -30,11 +30,13 @@ import { UserService } from './_services/user.service';
 import { AuthGuard } from './_guard/auth.guard';
 import { MemberListResolver } from './_resolvers/member-list.resolver';
 import { NgxGalleryModule } from '@kolkov/ngx-gallery';
+import { MemberEditComponent } from './members/member-edit/member-edit.component';
+import { MemberEditResolver } from './_resolvers/member-edit.resolver';
+import { PreventUnsavedChanges } from './_guard/prevent-unsaved-changes.guard';
 
 export function getToken() {
   return localStorage.getItem('token');
 }
-
 
 @NgModule({
   declarations: [
@@ -47,6 +49,7 @@ export function getToken() {
     MemberDetailComponent,
     ListsComponent,
     MessagesComponent,
+    MemberEditComponent,
   ],
   imports: [
     BrowserModule,
@@ -70,7 +73,9 @@ export function getToken() {
     ErrorInterceptorProvider,
     MemberDetailResolver,
     MemberListResolver,
-    ],
+    MemberEditResolver,
+    PreventUnsavedChanges
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
