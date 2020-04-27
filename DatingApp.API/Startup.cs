@@ -44,6 +44,7 @@ namespace DatingApp.API
             }
             );
             services.AddCors();
+            services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));
             services.AddAutoMapper(typeof(DatingRepository).Assembly);
             services.AddMvc(option => option.EnableEndpointRouting = false);
             //.SetCompatibilityVersion(CompatibilityVersion.Version_3_0);

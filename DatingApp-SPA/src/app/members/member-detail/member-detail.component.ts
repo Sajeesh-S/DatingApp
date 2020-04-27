@@ -3,10 +3,9 @@ import { User } from 'src/app/_models/user';
 import { UserService } from 'src/app/_services/user.service';
 import { AlertifyService } from 'src/app/_services/alertify.service';
 import { ActivatedRoute } from '@angular/router';
-import {NgxGalleryOptions} from '@kolkov/ngx-gallery';
-import {NgxGalleryImage} from '@kolkov/ngx-gallery';
-import {NgxGalleryAnimation} from '@kolkov/ngx-gallery';
-
+import { NgxGalleryOptions } from '@kolkov/ngx-gallery';
+import { NgxGalleryImage } from '@kolkov/ngx-gallery';
+import { NgxGalleryAnimation } from '@kolkov/ngx-gallery';
 
 @Component({
   selector: 'app-member-detail',
@@ -48,10 +47,10 @@ export class MemberDetailComponent implements OnInit {
         small: photo.url,
         medium: photo.url,
         big: photo.url,
-        description: photo.description
+        description: photo.description,
       });
-      return imageUrls;
     }
+    return imageUrls;
   }
   // loadUser() {
   //   this.userService.getUser(+this.route.snapshot.params.id).subscribe(
