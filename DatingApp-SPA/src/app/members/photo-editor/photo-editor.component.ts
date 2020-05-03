@@ -63,6 +63,14 @@ export class PhotoEditorComponent implements OnInit {
           isMain: res.isMain,
         };
         this.photos.push(photo);
+        if (photo.isMain) {
+          this.authService.changeMemberPhoto(photo.url);
+          this.authService.currentUser.photoUrl = photo.url;
+          localStorage.setItem(
+            'user',
+            JSON.stringify(this.authService.currentUser)
+          );
+        }
       }
     };
   }
@@ -71,12 +79,15 @@ export class PhotoEditorComponent implements OnInit {
       .setMainPhoto(this.authService.decodedToken.nameid, photo.id)
       .subscribe(
         () => {
-          this.currentMain = this.photos.filter(p => p.isMain === true)[0];
+          this.currentMain = this.photos.filter((p) => p.isMain === true)[0];
           this.currentMain.isMain = false;
           photo.isMain = true;
           this.authService.changeMemberPhoto(photo.url);
           this.authService.currentUser.photoUrl = photo.url;
-          localStorage.setItem('user', JSON.stringify(this.authService.currentUser));
+          localStorage.setItem(
+            'user',
+            JSON.stringify(this.authService.currentUser)
+          );
         },
         (error) => {
           this.alrertify.error(error);
@@ -84,13 +95,24 @@ export class PhotoEditorComponent implements OnInit {
       );
   }
   deletePhoto(id: number) {
-    this.alrertify.confirm('Are you sure you want to delete this photo?', () => {
-      this.userService.deletePhoto(this.authService.decodedToken.nameid, id).subscribe(() => {
-        this.photos.splice(this.photos.findIndex( p => p.id === id), 1);
-        this.alrertify.success('Photo has been deleted');
-      }, error => {
-        this.alrertify.error('Failed to delete the photo');
-      });
-    });
+    this.alrertify.confirm(
+      'Are you sure you want to delete this photo?',
+      () => {
+        this.userService
+          .deletePhoto(this.authService.decodedToken.nameid, id)
+          .subscribe(
+            () => {
+              this.photos.splice(
+                this.photos.findIndex((p) => p.id === id),
+                1
+              );
+              this.alrertify.success('Photo has been deleted');
+            },
+            (error) => {
+              this.alrertify.error('Failed to delete the photo');
+            }
+          );
+      }
+    );
   }
 }
