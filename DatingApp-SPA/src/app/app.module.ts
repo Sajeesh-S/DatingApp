@@ -1,5 +1,5 @@
 import { BrowserModule, HammerGestureConfig } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, Pipe } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -8,6 +8,7 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { RouterModule } from '@angular/router';
 import { JwtModule } from '@auth0/angular-jwt';
+import {TimeAgoPipe} from 'time-ago-pipe';
 
 import { AppComponent } from './app.component';
 import { from } from 'rxjs';
@@ -37,12 +38,22 @@ import { PreventUnsavedChanges } from './_guard/prevent-unsaved-changes.guard';
 import { PhotoEditorComponent } from './members/photo-editor/photo-editor.component';
 import { FileUploadModule } from 'ng2-file-upload';
 
+// tslint:disable-next-line: use-pipe-transform-interface
+@Pipe({
+  name: 'timeAgo',
+  pure: true
+})
+export class TimeAgoExtendsPipe extends TimeAgoPipe {}
+
+
+
 export function getToken() {
   return localStorage.getItem('token');
 }
 
 @NgModule({
   declarations: [
+    TimeAgoExtendsPipe,
     AppComponent,
     NavComponent,
     HomeComponent,
@@ -54,6 +65,7 @@ export function getToken() {
     MessagesComponent,
     MemberEditComponent,
     PhotoEditorComponent,
+    // TimeAgoPipe
   ],
   imports: [
     BrowserModule,
