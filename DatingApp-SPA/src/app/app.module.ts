@@ -6,6 +6,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { TabsModule } from 'ngx-bootstrap/tabs';
+import { PaginationModule } from 'ngx-bootstrap/pagination';
+
 import { RouterModule } from '@angular/router';
 import { JwtModule } from '@auth0/angular-jwt';
 import {TimeAgoPipe} from 'time-ago-pipe';
@@ -37,6 +39,8 @@ import { MemberEditResolver } from './_resolvers/member-edit.resolver';
 import { PreventUnsavedChanges } from './_guard/prevent-unsaved-changes.guard';
 import { PhotoEditorComponent } from './members/photo-editor/photo-editor.component';
 import { FileUploadModule } from 'ng2-file-upload';
+import { ButtonsModule } from 'ngx-bootstrap/buttons';
+
 
 // tslint:disable-next-line: use-pipe-transform-interface
 @Pipe({
@@ -78,8 +82,10 @@ export function getToken() {
     BsDropdownModule.forRoot(),
     BsDatepickerModule.forRoot(),
     TabsModule.forRoot(),
+    ButtonsModule.forRoot(),
     RouterModule.forRoot(appRoutes),
     FileUploadModule,
+    PaginationModule.forRoot(),
     JwtModule.forRoot({
       config: {
         tokenGetter: getToken,
