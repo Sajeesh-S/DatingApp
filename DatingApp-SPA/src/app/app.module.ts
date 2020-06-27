@@ -40,6 +40,7 @@ import { PreventUnsavedChanges } from './_guard/prevent-unsaved-changes.guard';
 import { PhotoEditorComponent } from './members/photo-editor/photo-editor.component';
 import { FileUploadModule } from 'ng2-file-upload';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
+import { ListsResolver } from './_resolvers/list.resolvers';
 
 
 // tslint:disable-next-line: use-pipe-transform-interface
@@ -101,6 +102,7 @@ export function getToken() {
     MemberListResolver,
     MemberEditResolver,
     PreventUnsavedChanges,
+    ListsResolver,
   ],
   bootstrap: [AppComponent],
 })

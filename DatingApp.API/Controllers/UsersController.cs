@@ -5,6 +5,7 @@ using AutoMapper;
 using DatingApp.API.Data;
 using DatingApp.API.Dtos;
 using DatingApp.API.Helpers;
+using DatingApp.API.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -32,7 +33,7 @@ namespace DatingApp.API.Controllers
             userParams.UserId = currentUserId;
             if (string.IsNullOrEmpty(userParams.Gender))
             {
-                userParams.Gender = userFromRepo.Gender == "male"? "female" : "male";
+                userParams.Gender = userFromRepo.Gender == "male" ? "female" : "male";
             }
             var users = await _repo.GetUsers(userParams);
             var userToReturn = _mapper.Map<IEnumerable<UserForListDto>>(users);
@@ -61,6 +62,27 @@ namespace DatingApp.API.Controllers
                 return NoContent();
 
             throw new System.Exception($"Updating user {id} failed on save");
+        }
+        [HttpPost("{id}/Like/{recipeintId}")]
+        public async Task<IActionResult> LikeUser(int id, int recipeintId)
+        {
+            if (id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+                return Unauthorized();
+            var like = await _repo.GetLike(id, recipeintId);
+            if (like != null)
+                return BadRequest("You already liked this user");
+            if (await _repo.GetUser(recipeintId) == null)
+                return NotFound();
+
+            like = new Like
+            {
+                LikerId = id,
+                LikeeId = recipeintId
+            };
+            _repo.Add<Like>(like);
+            if (await _repo.SaveAll())
+                return Ok();
+            return BadRequest("Failed to like user");
         }
 
     }
